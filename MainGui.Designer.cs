@@ -31,6 +31,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.LoadFileTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.structureMap = new System.Windows.Forms.Button();
+            this.structureMapFileName = new System.Windows.Forms.TextBox();
             this.elevationMapLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -77,6 +80,7 @@
             this.elevationMapFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.elevationWaterMapFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.biomeMapFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.structureMapFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
             this.LoadFileTab.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -120,37 +124,72 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 112F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 450F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel2.Controls.Add(this.label12, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.structureMap, 2, 3);
+            this.tableLayoutPanel2.Controls.Add(this.structureMapFileName, 1, 3);
             this.tableLayoutPanel2.Controls.Add(this.elevationMapLabel, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 4);
-            this.tableLayoutPanel2.Controls.Add(this.label4, 0, 6);
-            this.tableLayoutPanel2.Controls.Add(this.elevationMapPathTextBox, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.elevationWaterMapPathTextBox, 0, 3);
-            this.tableLayoutPanel2.Controls.Add(this.biomeMapPathTextBox, 0, 5);
-            this.tableLayoutPanel2.Controls.Add(this.minecraftSaveTextBox, 0, 7);
-            this.tableLayoutPanel2.Controls.Add(this.elevationMapLoadButton, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.elevationWaterMapLoadButton, 1, 3);
-            this.tableLayoutPanel2.Controls.Add(this.biomeMapLoadButton, 1, 5);
-            this.tableLayoutPanel2.Controls.Add(this.minecraftSaveButton, 1, 7);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label4, 0, 7);
+            this.tableLayoutPanel2.Controls.Add(this.elevationMapPathTextBox, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.elevationWaterMapPathTextBox, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.biomeMapPathTextBox, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.minecraftSaveTextBox, 1, 7);
+            this.tableLayoutPanel2.Controls.Add(this.elevationMapLoadButton, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.elevationWaterMapLoadButton, 2, 1);
+            this.tableLayoutPanel2.Controls.Add(this.biomeMapLoadButton, 2, 2);
+            this.tableLayoutPanel2.Controls.Add(this.minecraftSaveButton, 2, 7);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 8);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 9;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(770, 529);
             this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label12.Location = new System.Drawing.Point(3, 80);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(164, 25);
+            this.label12.TabIndex = 15;
+            this.label12.Text = "Structure Map";
+            this.label12.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            // 
+            // structureMap
+            // 
+            this.structureMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.structureMap.Location = new System.Drawing.Point(623, 83);
+            this.structureMap.Name = "structureMap";
+            this.structureMap.Size = new System.Drawing.Size(144, 19);
+            this.structureMap.TabIndex = 14;
+            this.structureMap.Text = "Load";
+            this.structureMap.UseVisualStyleBackColor = true;
+            this.structureMap.Click += new System.EventHandler(this.structureMap_Click);
+            // 
+            // structureMapFileName
+            // 
+            this.structureMapFileName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.structureMapFileName.Location = new System.Drawing.Point(173, 83);
+            this.structureMapFileName.Name = "structureMapFileName";
+            this.structureMapFileName.Size = new System.Drawing.Size(444, 20);
+            this.structureMapFileName.TabIndex = 13;
+            this.structureMapFileName.TextChanged += new System.EventHandler(this.structureMapFileName_TextChanged);
             // 
             // elevationMapLabel
             // 
@@ -158,7 +197,7 @@
             this.elevationMapLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.elevationMapLabel.Location = new System.Drawing.Point(3, 0);
             this.elevationMapLabel.Name = "elevationMapLabel";
-            this.elevationMapLabel.Size = new System.Drawing.Size(652, 20);
+            this.elevationMapLabel.Size = new System.Drawing.Size(164, 30);
             this.elevationMapLabel.TabIndex = 0;
             this.elevationMapLabel.Text = "Elevation Map";
             this.elevationMapLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -167,9 +206,9 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 46);
+            this.label2.Location = new System.Drawing.Point(3, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(652, 20);
+            this.label2.Size = new System.Drawing.Size(164, 25);
             this.label2.TabIndex = 1;
             this.label2.Text = "Elevation Water Map";
             this.label2.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -178,9 +217,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 92);
+            this.label3.Location = new System.Drawing.Point(3, 55);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(652, 20);
+            this.label3.Size = new System.Drawing.Size(164, 25);
             this.label3.TabIndex = 2;
             this.label3.Text = "Biome Map";
             this.label3.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -189,9 +228,9 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 138);
+            this.label4.Location = new System.Drawing.Point(3, 180);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(652, 20);
+            this.label4.Size = new System.Drawing.Size(164, 25);
             this.label4.TabIndex = 3;
             this.label4.Text = "Output Folder";
             this.label4.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -199,45 +238,45 @@
             // elevationMapPathTextBox
             // 
             this.elevationMapPathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elevationMapPathTextBox.Location = new System.Drawing.Point(3, 23);
+            this.elevationMapPathTextBox.Location = new System.Drawing.Point(173, 3);
             this.elevationMapPathTextBox.Name = "elevationMapPathTextBox";
-            this.elevationMapPathTextBox.Size = new System.Drawing.Size(652, 20);
+            this.elevationMapPathTextBox.Size = new System.Drawing.Size(444, 20);
             this.elevationMapPathTextBox.TabIndex = 4;
             this.elevationMapPathTextBox.TextChanged += new System.EventHandler(this.elevationMapPathTextBox_TextChanged);
             // 
             // elevationWaterMapPathTextBox
             // 
             this.elevationWaterMapPathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elevationWaterMapPathTextBox.Location = new System.Drawing.Point(3, 69);
+            this.elevationWaterMapPathTextBox.Location = new System.Drawing.Point(173, 33);
             this.elevationWaterMapPathTextBox.Name = "elevationWaterMapPathTextBox";
-            this.elevationWaterMapPathTextBox.Size = new System.Drawing.Size(652, 20);
+            this.elevationWaterMapPathTextBox.Size = new System.Drawing.Size(444, 20);
             this.elevationWaterMapPathTextBox.TabIndex = 5;
             this.elevationWaterMapPathTextBox.TextChanged += new System.EventHandler(this.elevationWaterMapPathTextBox_TextChanged);
             // 
             // biomeMapPathTextBox
             // 
             this.biomeMapPathTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.biomeMapPathTextBox.Location = new System.Drawing.Point(3, 115);
+            this.biomeMapPathTextBox.Location = new System.Drawing.Point(173, 58);
             this.biomeMapPathTextBox.Name = "biomeMapPathTextBox";
-            this.biomeMapPathTextBox.Size = new System.Drawing.Size(652, 20);
+            this.biomeMapPathTextBox.Size = new System.Drawing.Size(444, 20);
             this.biomeMapPathTextBox.TabIndex = 6;
             this.biomeMapPathTextBox.TextChanged += new System.EventHandler(this.biomeMapPathTextBox_TextChanged);
             // 
             // minecraftSaveTextBox
             // 
             this.minecraftSaveTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.minecraftSaveTextBox.Location = new System.Drawing.Point(3, 161);
+            this.minecraftSaveTextBox.Location = new System.Drawing.Point(173, 183);
             this.minecraftSaveTextBox.Name = "minecraftSaveTextBox";
-            this.minecraftSaveTextBox.Size = new System.Drawing.Size(652, 20);
+            this.minecraftSaveTextBox.Size = new System.Drawing.Size(444, 20);
             this.minecraftSaveTextBox.TabIndex = 7;
             this.minecraftSaveTextBox.TextChanged += new System.EventHandler(this.minecraftSaveTextBox_TextChanged);
             // 
             // elevationMapLoadButton
             // 
             this.elevationMapLoadButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elevationMapLoadButton.Location = new System.Drawing.Point(661, 23);
+            this.elevationMapLoadButton.Location = new System.Drawing.Point(623, 3);
             this.elevationMapLoadButton.Name = "elevationMapLoadButton";
-            this.elevationMapLoadButton.Size = new System.Drawing.Size(106, 20);
+            this.elevationMapLoadButton.Size = new System.Drawing.Size(144, 24);
             this.elevationMapLoadButton.TabIndex = 8;
             this.elevationMapLoadButton.Text = "Load";
             this.elevationMapLoadButton.UseVisualStyleBackColor = true;
@@ -246,9 +285,9 @@
             // elevationWaterMapLoadButton
             // 
             this.elevationWaterMapLoadButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elevationWaterMapLoadButton.Location = new System.Drawing.Point(661, 69);
+            this.elevationWaterMapLoadButton.Location = new System.Drawing.Point(623, 33);
             this.elevationWaterMapLoadButton.Name = "elevationWaterMapLoadButton";
-            this.elevationWaterMapLoadButton.Size = new System.Drawing.Size(106, 20);
+            this.elevationWaterMapLoadButton.Size = new System.Drawing.Size(144, 19);
             this.elevationWaterMapLoadButton.TabIndex = 9;
             this.elevationWaterMapLoadButton.Text = "Load";
             this.elevationWaterMapLoadButton.UseVisualStyleBackColor = true;
@@ -257,9 +296,9 @@
             // biomeMapLoadButton
             // 
             this.biomeMapLoadButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.biomeMapLoadButton.Location = new System.Drawing.Point(661, 115);
+            this.biomeMapLoadButton.Location = new System.Drawing.Point(623, 58);
             this.biomeMapLoadButton.Name = "biomeMapLoadButton";
-            this.biomeMapLoadButton.Size = new System.Drawing.Size(106, 20);
+            this.biomeMapLoadButton.Size = new System.Drawing.Size(144, 19);
             this.biomeMapLoadButton.TabIndex = 10;
             this.biomeMapLoadButton.Text = "Load";
             this.biomeMapLoadButton.UseVisualStyleBackColor = true;
@@ -268,9 +307,9 @@
             // minecraftSaveButton
             // 
             this.minecraftSaveButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.minecraftSaveButton.Location = new System.Drawing.Point(661, 161);
+            this.minecraftSaveButton.Location = new System.Drawing.Point(623, 183);
             this.minecraftSaveButton.Name = "minecraftSaveButton";
-            this.minecraftSaveButton.Size = new System.Drawing.Size(106, 20);
+            this.minecraftSaveButton.Size = new System.Drawing.Size(144, 19);
             this.minecraftSaveButton.TabIndex = 11;
             this.minecraftSaveButton.Text = "Chose";
             this.minecraftSaveButton.UseVisualStyleBackColor = true;
@@ -308,7 +347,7 @@
             this.tableLayoutPanel3.Controls.Add(this.label11, 0, 10);
             this.tableLayoutPanel3.Controls.Add(this.levelNameTextBox, 2, 10);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 187);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 208);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 12;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
@@ -323,7 +362,7 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(764, 339);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(614, 318);
             this.tableLayoutPanel3.TabIndex = 12;
             // 
             // label1
@@ -704,17 +743,17 @@
             // 
             // elevationMapFileDialog
             // 
-            this.elevationMapFileDialog.FileName = "world_graphic-el-*";
+            this.elevationMapFileDialog.FileName = "*el*.bmp";
             this.elevationMapFileDialog.Filter = "Image Files(*.BMP;*.PNG)|*.BMP;*.PNG|All files (*.*)|*.*";
             // 
             // elevationWaterMapFileDialog
             // 
-            this.elevationWaterMapFileDialog.FileName = "world_graphic-elw-*";
+            this.elevationWaterMapFileDialog.FileName = "*elw*.bmp";
             this.elevationWaterMapFileDialog.Filter = "Image Files(*.BMP;*.PNG)|*.BMP;*.PNG|All files (*.*)|*.*";
             // 
             // biomeMapFileDialog
             // 
-            this.biomeMapFileDialog.FileName = "world_graphic-bm-*";
+            this.biomeMapFileDialog.FileName = "*bm*.bmp";
             this.biomeMapFileDialog.Filter = "Image Files(*.BMP;*.PNG)|*.BMP;*.PNG|All files (*.*)|*.*";
             // 
             // MainGui
@@ -771,13 +810,13 @@
         private System.Windows.Forms.TextBox elevationWaterMapPathTextBox;
         private System.Windows.Forms.TextBox biomeMapPathTextBox;
         private System.Windows.Forms.TextBox minecraftSaveTextBox;
-        private System.Windows.Forms.Button elevationMapLoadButton;
         private System.Windows.Forms.Button elevationWaterMapLoadButton;
         private System.Windows.Forms.Button biomeMapLoadButton;
         private System.Windows.Forms.Button minecraftSaveButton;
         private System.Windows.Forms.OpenFileDialog elevationMapFileDialog;
         private System.Windows.Forms.OpenFileDialog elevationWaterMapFileDialog;
         private System.Windows.Forms.OpenFileDialog biomeMapFileDialog;
+        private System.Windows.Forms.OpenFileDialog structureMapFileDialog;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown borderNorthInput;
@@ -800,5 +839,9 @@
         private System.Windows.Forms.NumericUpDown caveCoverageInput;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox levelNameTextBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button structureMap;
+        private System.Windows.Forms.TextBox structureMapFileName;
+        private System.Windows.Forms.Button elevationMapLoadButton;
     }
 }

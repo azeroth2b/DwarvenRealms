@@ -32,6 +32,8 @@ namespace DwarvenRealms
             minecraftSaveSelector.SelectedPath = path;
         }
 
+
+        // Worker thread from Generate Button
         private void MapGenerationWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             MapCrafter craft = e.Argument as MapCrafter;
@@ -44,6 +46,25 @@ namespace DwarvenRealms
             doneChunks = 0;
             Stopwatch watch = Stopwatch.StartNew();
             Stopwatch unitTime = new Stopwatch();
+
+
+
+            /*
+            for (int xi = MapCrafter.getChunkStartX(); xi < MapCrafter.getChunkFinishX(); xi++)
+            {
+                for (int zi = MapCrafter.getChunkStartY(); zi < MapCrafter.getChunkFinishY(); zi++)
+                {
+                    // This scales the dimensions based off the blocksPerEmbarkTile [1..8]
+                    double xMin = ((xi * 16.0 / (double)Settings.Default.blocksPerEmbarkTile) + Settings.Default.mapCenterX);
+                    double xMax = (((xi + 1) * 16.0 / (double)Settings.Default.blocksPerEmbarkTile) + Settings.Default.mapCenterX);
+                    double yMin = ((zi * 16.0 / (double)Settings.Default.blocksPerEmbarkTile) + Settings.Default.mapCenterY);
+                    double yMax = (((zi + 1) * 16.0 / (double)Settings.Default.blocksPerEmbarkTile) + Settings.Default.mapCenterY);
+                    // craft.generateInternalMapChunk(xMin, xMax, yMin, yMax);
+
+                }
+            }
+            */
+
             for (int xi = MapCrafter.getChunkStartX(); xi < MapCrafter.getChunkFinishX(); xi++)
             {
                 for (int zi = MapCrafter.getChunkStartY(); zi < MapCrafter.getChunkFinishY(); zi++)
@@ -228,6 +249,21 @@ namespace DwarvenRealms
         private void caveCoverageInput_ValueChanged(object sender, EventArgs e)
         {
             Settings.Default.cavePercentage = (int)caveCoverageInput.Value;
+        }
+
+        private void structureMap_Click(object sender, EventArgs e)
+        {
+            DialogResult result = structureMapFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                structureMapFileName.Text = structureMapFileDialog.FileName;
+            }
+        }
+
+        private void structureMapFileName_TextChanged(object sender, EventArgs e)
+        {
+            Settings.Default.structureMapPath = structureMapFileName.Text;
+            Console.WriteLine("Structure map path changed to " + Settings.Default.structureMapPath);
         }
 
         private void levelNameTextBox_TextChanged(object sender, EventArgs e)

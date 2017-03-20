@@ -12,6 +12,9 @@ namespace DwarvenRealms
         int[,] smoothedElevationMap;
         int[,] waterMap;
         int[,] riverHeightMap;
+        Structures.Type[,] structureMap;
+        int[,] riverFlow;
+        int[,] riverType;
 
         // unsafe is needed to use raw pointers.
         // This implementation is not ideal, because before and after calling this function, the user has to manually lock/unlock the bitmap. But there seems to be no other, better, cleaner, more elegant way.
@@ -56,10 +59,17 @@ namespace DwarvenRealms
             Console.WriteLine("Loaded elevation map sized {0}x{1}", elevationMap.GetUpperBound(0), elevationMap.GetUpperBound(1));
         }
 
+        public bool river(Color point)
+        {
+            return point.R == 0 && point.G != 0;
+        }
+
         public void loadWaterMap(string path)
         {
             Bitmap waterBitMap = (Bitmap)Bitmap.FromFile(path);
-
+            // BezierRivers.MakeRivers mr = new BezierRivers.MakeRivers(path);
+            // mr.makeRivers();
+            
             // locking bitmap...
             var bmpdata = waterBitMap.LockBits(new Rectangle(0, 0, waterBitMap.Width, waterBitMap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, waterBitMap.PixelFormat);
             int stride = bmpdata.Stride;
@@ -67,32 +77,97 @@ namespace DwarvenRealms
 
             waterMap = new int[waterBitMap.Width, waterBitMap.Height];
             riverHeightMap = new int[waterBitMap.Width, waterBitMap.Height];
+            riverFlow = new int[waterBitMap.Width, waterBitMap.Height];
+            riverType = new int[waterBitMap.Width, waterBitMap.Height];
+
             for (int y = 0; y < waterBitMap.Height; y++)
             {
                 for (int x = 0; x < waterBitMap.Width; x++)
                 {
                     Color point = fetchColor(x, y, stride, colorsize, bmpdata);
+                    Color pointNorth = fetchColor(x, (y < bmpdata.Height ? y + 1 : y), stride, colorsize, bmpdata);
+                    Color pointEast = fetchColor((x < bmpdata.Width ? x + 1 : x), y, stride, colorsize, bmpdata);
+                    Color pointSouth = fetchColor(x, (y > 0 ? y - 1 : y), stride, colorsize, bmpdata);
+                    Color pointWest = fetchColor((x > 0 ? x - 1 : y), y, stride, colorsize, bmpdata);
+
+                    bool east = river(pointEast);
+                    bool west = river(pointWest);
+                    bool north = river(pointNorth);
+                    bool south = river(pointSouth);
+
+                    waterMap[x, y] = -1;
+                    riverHeightMap[x, y] = -1;
+                    riverFlow[x, y] = -1;
+
+                    // Ocean
                     if (point.R == 0 && point.G == 0)
                     {
                         waterMap[x, y] = point.B + 25;
-                        riverHeightMap[x, y] = -1;
                     }
+                    // River
                     else if (point.R == 0)
                     {
-                        waterMap[x, y] = -1;
-                        riverHeightMap[x, y] = point.B;
-                    }
-                    else
-                    {
-                        waterMap[x, y] = -1;
-                        riverHeightMap[x, y] = -1;
+                        // River
+                        waterMap[x, y] = -1; // already processed
+                                             // this defines the altitude of the river.  
+
+                        // detect a neighbor river segments
+                        riverFlow[x, y] = (north ? 1 : 0) + (south ? 2 : 0) + (west ? 4 : 0) + (east ? 8 : 0);
+
+                        if (point.B >= 187) { riverType[x, y] = 0; }
+                        else if (point.B >= 169) { riverType[x, y] = 1; }
+                        else if (point.B >= 154) { riverType[x, y] = 1; }
+                        else if (point.B >= 139) { riverType[x, y] = 2; }
+                        else if (point.B >= 120) { riverType[x, y] = 3; }
+                        else if (point.B >= 99) { riverType[x, y] = 4; }
+                        else { riverType[x, y] = 5; }
+
+                        // Make a better waterfall
+                        if (north && pointNorth.B < point.B)
+                            riverHeightMap[x, y] = point.B - (point.B - pointNorth.B) / 4;
+                        else if (east && pointEast.B < point.B)
+                            riverHeightMap[x, y] = point.B - (point.B - pointEast.B) / 4;
+                        else if (south && pointSouth.B < point.B)
+                            riverHeightMap[x, y] = point.B - (point.B - pointSouth.B) / 4;
+                        else if (west && pointWest.B < point.B)
+                            riverHeightMap[x, y] = point.B - (point.B - pointWest.B) / 4;
+                        else
+                            riverHeightMap[x, y] = point.B;
                     }
                 }
             }
+
+
+            // expand large rivers
+            /*
+            for (int y = 0; y < waterBitMap.Height; y++)
+            {
+                for (int x = 0; x < waterBitMap.Width; x++)
+                {
+                    if (riverType[x,y]>=3) {
+                        //Console.WriteLine("riverFlow[" + x + "," + y + "]: " + ((UInt32)riverFlow[x, y]) + " -- " + ((UInt32)riverFlow[x, y] & (UInt32)0x0001));
+                        if (((UInt32) riverFlow[x,y] & (UInt32) 0x0011) > 0)  // North or South neighbor
+                        {
+                            riverHeightMap[x+1, y] = riverHeightMap[x, y];
+                            if (riverType[x,y] > 3)
+                                riverHeightMap[x-1, y] = riverHeightMap[x, y];
+                        }
+                        if (((UInt32)riverFlow[x, y] & (UInt32)0x1100) > 0) // West or East Neighbor
+                        {
+                            riverHeightMap[x, y + 1] = riverHeightMap[x, y];
+                            if (riverType[x, y] > 3)
+                                riverHeightMap[x, y - 1] = riverHeightMap[x, y];
+                        }
+                    }
+                }
+            }
+            */
+
             waterBitMap.UnlockBits(bmpdata); // unlocked bitmap
 
             Console.WriteLine("Loaded ocean map sized {0}x{1}", waterMap.GetUpperBound(0), waterMap.GetUpperBound(1));
         }
+
         public void loadBiomeMap(string path)
         {
             Bitmap tempBiomeMap = (Bitmap)Bitmap.FromFile(path);
@@ -112,6 +187,31 @@ namespace DwarvenRealms
             tempBiomeMap.UnlockBits(bmpdata); // unlocked bitmap
             Console.WriteLine("Loaded biome map sized {0}x{1}", biomeMap.GetUpperBound(0), biomeMap.GetUpperBound(1));
         }
+
+        public Boolean closeEnough(Color a, Color b, double range)
+        {
+            return (Math.Pow(a.R - b.R, 2) + Math.Pow(a.G - b.G, 2) + Math.Pow(a.B - b.B, 2)) < Math.Pow(range, 2);
+        }
+
+        public void loadStructureMap(string path)
+        {
+            Bitmap tempStructureMap = (Bitmap)Bitmap.FromFile(path);
+            // locking bitmap ...
+            var bmpdata = tempStructureMap.LockBits(new Rectangle(0, 0, tempStructureMap.Width, tempStructureMap.Height), System.Drawing.Imaging.ImageLockMode.ReadOnly, tempStructureMap.PixelFormat);
+            int stride = bmpdata.Stride;
+            int colorsize = System.Drawing.Bitmap.GetPixelFormatSize(bmpdata.PixelFormat) / 8;
+
+            structureMap = new Structures.Type[tempStructureMap.Width, tempStructureMap.Height];
+            for (int y = 0; y < tempStructureMap.Height; y++)
+            {
+                for (int x = 0; x < tempStructureMap.Width; x++)
+                {
+                    structureMap[x,y] = Structures.getStructureType(fetchColor(x, y, stride, colorsize, bmpdata));
+                }
+            }
+            tempStructureMap.UnlockBits(bmpdata); // unlocked bitmap
+            Console.WriteLine("Loaded structure map sized {0}x{1}", structureMap.GetUpperBound(0), structureMap.GetUpperBound(1));
+    }
 
         public enum InterpolationChoice
         {
@@ -203,7 +303,18 @@ namespace DwarvenRealms
         {
             return getClampedCoord(riverHeightMap, x, y);
         }
-
+        public int getRiverFlow(int x, int y)
+        {
+            return getClampedCoord(riverFlow, x, y);
+        }
+        public int getRiverType(int x, int y)
+        {
+            return getClampedCoord(riverType, x, y);
+        }
+        public Structures.Type getStructureMap(int x, int y)
+        {
+            return getClampedCoord(structureMap, x, y);
+        }
         public int getBiome(int x, int y)
         {
             return getClampedCoord(biomeMap, x, y);
@@ -247,6 +358,25 @@ namespace DwarvenRealms
             if (y > grid.GetUpperBound(1))
                 y = grid.GetUpperBound(1);
             return grid[x, y];
+        }
+        public static Structures.Type getClampedCoord(Structures.Type[,] grid, int x, int y)
+        {
+            if (grid == null || grid.Length == 0)
+                return Structures.Type.Unknown;
+            if (x < grid.GetLowerBound(0))
+                x = grid.GetLowerBound(0);
+            if (x > grid.GetUpperBound(0))
+                x = grid.GetUpperBound(0);
+            if (y < grid.GetLowerBound(1))
+                y = grid.GetLowerBound(1);
+            if (y > grid.GetUpperBound(1))
+                y = grid.GetUpperBound(1);
+            return grid[x, y];
+        }
+        public static bool outsideBounds(mapData[,] grid, int x, int y)
+        {
+            return (x < grid.GetLowerBound(0) || x > grid.GetUpperBound(0) ||
+                y < grid.GetLowerBound(1) || y > grid.GetUpperBound(1));
         }
 
         int getFuzzyCoords(int[,] grid, double x, double y)
